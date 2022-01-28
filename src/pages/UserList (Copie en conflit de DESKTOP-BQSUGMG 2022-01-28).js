@@ -6,19 +6,17 @@ import Header from "../components/Header";
 
 const UserList = () => {
     const [listData, setListData] = useState([]);
-
     useEffect(() => {
         let moviesId = window.localStorage.movies
             ? window.localStorage.movies.split(",")
             : [];
+        
         for (let i = 0; i < moviesId.length; i++) {
             axios
                 .get(
                     `https://api.themoviedb.org/3/movie/${moviesId[i]}?api_key=db66422914223f50e69279fd54ac088f&language=fr-FR`
                 )
-                .then((res) =>
-                    setListData((listData) => [...listData, res.data])
-                );
+                .then((res) => setListData((listData) => [...listData, res.data]));
         }
     }, []);
 
@@ -31,7 +29,7 @@ const UserList = () => {
             <div className="result">
                 {listData.length > 0 ? (
                     listData.map((movie) => (
-                        <Card movie={movie} key={movie.name} />
+                        <Card movie={movie} key={movie.id} />
                     ))
                 ) : (
                     <h2>Aucun coup de coeur pour le moment</h2>
@@ -42,3 +40,4 @@ const UserList = () => {
 };
 
 export default UserList;
+
